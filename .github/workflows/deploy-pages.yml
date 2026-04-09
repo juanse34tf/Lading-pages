@@ -32,7 +32,13 @@ jobs:
       - name: Prepare static artifact
         run: |
           mkdir -p _site
-          cp -r index.html css js img _site/
+          for path in index.html css js img; do
+            if [ ! -e "$path" ]; then
+              echo "Required path '$path' was not found."
+              exit 1
+            fi
+            cp -r "$path" _site/
+          done
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
