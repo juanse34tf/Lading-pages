@@ -28,10 +28,20 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site artifact
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          for item in index.html css js img; do
+            if [ -e "$item" ]; then
+              cp -R "$item" _site/
+            fi
+          done
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ./_site
 
       - name: Deploy to GitHub Pages
         id: deployment
