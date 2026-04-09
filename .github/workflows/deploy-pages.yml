@@ -32,12 +32,16 @@ jobs:
       - name: Prepare static artifact
         run: |
           mkdir -p _site
-          rsync -av --delete \
+          rsync -av \
             --exclude '.git/' \
             --exclude '.github/' \
             --exclude '_site/' \
             --exclude '.env' \
             --exclude '.env.*' \
+            --exclude '*.key' \
+            --exclude '*.pem' \
+            --exclude '*.log' \
+            --exclude 'node_modules/' \
             ./ _site/
 
       - name: Upload artifact
