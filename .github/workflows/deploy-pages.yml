@@ -37,7 +37,7 @@ jobs:
             --exclude='.github/' \
             --exclude='_site/' \
             ./ _site/
-          test -f _site/index.html || (echo "Missing required file: index.html" && exit 1)
+          test -f _site/index.html || { echo "Missing required file: index.html"; exit 1; }
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
