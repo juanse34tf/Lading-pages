@@ -32,11 +32,12 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          for item in index.html css js img; do
-            if [ -e "$item" ]; then
-              cp -R "$item" _site/
-            fi
-          done
+          rsync -av --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='_site/' \
+            ./ _site/
+          test -f _site/index.html || (echo "Missing required file: index.html" && exit 1)
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
