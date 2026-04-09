@@ -33,14 +33,14 @@ jobs:
         run: |
           mkdir -p _site
           if [ ! -f index.html ]; then
-            echo "Required file 'index.html' was not found."
+            echo "Required file 'index.html' was not found in the repository root."
             exit 1
           fi
           cp index.html _site/
 
           for dir in css js img; do
             if [ ! -d "$dir" ]; then
-              echo "Required directory '$dir' was not found."
+              echo "Required directory '$dir' was not found in the repository root."
               exit 1
             fi
             cp -r "$dir" _site/
