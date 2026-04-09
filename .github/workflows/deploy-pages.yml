@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-deployment
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,12 +32,18 @@ jobs:
       - name: Prepare static artifact
         run: |
           mkdir -p _site
-          for path in index.html css js img; do
-            if [ ! -e "$path" ]; then
-              echo "Required path '$path' was not found."
+          if [ ! -f index.html ]; then
+            echo "Required file 'index.html' was not found."
+            exit 1
+          fi
+          cp index.html _site/
+
+          for dir in css js img; do
+            if [ ! -d "$dir" ]; then
+              echo "Required directory '$dir' was not found."
               exit 1
             fi
-            cp -r "$path" _site/
+            cp -r "$dir" _site/
           done
 
       - name: Upload artifact
